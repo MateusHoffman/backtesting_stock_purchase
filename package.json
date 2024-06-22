@@ -1,0 +1,28 @@
+{
+  "name": "backtesting_stock_purchase",
+  "version": "1.0.0",
+  "main": "index.ts",
+  "repository": "git@github.com:MateusHoffman/backtesting_stock_purchase.git",
+  "author": "Hoffman <mateus.hsilva@muu.agr.br>",
+  "license": "MIT",
+  "scripts": {
+    "start": "nodemon --watch 'src/**/*.ts' --exec 'ts-node' ./src/index.ts",
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.16",
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/mocha": "^10.0.7",
+    "@types/node": "^20.14.8",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.4",
+    "ts-jest": "^29.1.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
+  }
+}

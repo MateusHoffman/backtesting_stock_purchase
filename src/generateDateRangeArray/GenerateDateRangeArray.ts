@@ -4,7 +4,7 @@ export interface DateRange {
   endDate: string;
 }
 
-type DateStringArray = string[];
+export type DateStringArray = string[];
 
 // Função principal que retorna um array de strings com as datas no formato DD/MM/YYYY
 export default function generateDateRangeArray(): DateStringArray {

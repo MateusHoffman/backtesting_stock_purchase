@@ -77,11 +77,16 @@ function calculateWeight(stocks: any) {
   });
 }
 
-function getDividendYieldMin(dividendLast10Years: any, currentPrice: any) {
+function getThirdLowestValue(dividendLast10Years: any) {
   const sortDividendValue = dividendLast10Years.sort(
     (a: any, b: any) => a.value - b.value
   );
   const thirdLowestValue = sortDividendValue[2];
+  return thirdLowestValue
+}
+
+function getDividendYieldMin(dividendLast10Years: any, currentPrice: any) {
+  const thirdLowestValue = getThirdLowestValue(dividendLast10Years)
   const DY = (thirdLowestValue.value / currentPrice) * 100;
   return DY;
 }
@@ -151,6 +156,7 @@ function getBestStocksOfTheDay(stocks: any[], date: string) {
         ticker: stock.ticker,
         date: stock.date,
         price: stock.currentPrice,
+        thirdLowestValue: getThirdLowestValue(stock.dividendLast10Years).value,
         DY: parseFloat(dividendYieldMin.toFixed(2)),
       };
     });
@@ -161,6 +167,7 @@ function getBestStocksOfTheDay(stocks: any[], date: string) {
     const sortDescByDy = filteredByDy.sort((a, b) => b.DY - a.DY);
     const filteredByPrefix = filterByPrefix(sortDescByDy);
     const formattedStockByWeight = calculateWeight(filteredByPrefix);
+    // console.log('top:', formattedStockByWeight)
     return formattedStockByWeight;
   } catch (error) {
     console.error("Erro ao obter as melhores ações do dia", error);

@@ -1,15 +1,8 @@
 import fs from "fs";
-import path from "path";
 
 const baseFileName = "output";
 const fileExtension = ".csv";
 const maxLinesPerFile = 90;
-
-// Função para contar as linhas em um arquivo
-const countFileLines = (file: string): number => {
-  const data = fs.readFileSync(file, "utf8");
-  return data.split("\n").filter((line) => line.trim() !== "").length;
-};
 
 // Função para obter o caminho do arquivo atual considerando o limite de linhas
 const getCurrentFilePath = (index: number): string => {
@@ -70,20 +63,5 @@ export function deleteAllOutputFiles() {
     console.log(`Foram deletados ${deletedCount} arquivo(s) CSV.`);
   } catch (error) {
     console.error(`Erro ao deletar os arquivos CSV: ${error}`);
-  }
-}
-
-// Função para deletar um arquivo CSV específico
-export function deleteCSVFile() {
-  try {
-    const filePath = "output.csv";
-    if (fs.existsSync(filePath)) {
-      fs.unlinkSync(filePath);
-      console.log(`Arquivo ${filePath} apagado com sucesso.`);
-    } else {
-      console.log(`O arquivo ${filePath} não existe.`);
-    }
-  } catch (error) {
-    console.error(`Erro ao tentar apagar o arquivo`, error);
   }
 }

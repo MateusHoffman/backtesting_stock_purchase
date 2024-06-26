@@ -9,7 +9,10 @@ import getNewDivAnnouncementList from "./getNewDivAnnouncementList/GetNewDivAnno
 import calculateStockPosition from "./calculateStockPosition/CalculateStockPosition";
 import calculateTotalValueOperation from "./calculateTotalValueOperation/CalculateTotalValueOperation";
 import getPaydayStock from "./getPaydayStock/GetPaydayStock";
-import { addDataToCSV, deleteAllOutputFiles, deleteCSVFile } from "./csv/Csv";
+import { addDataToCSV, deleteAllOutputFiles } from "./csv/Csv";
+import calculatePurchaseCost from "./calculatePurchaseCost/CalculatePurchaseCost";
+import getLastDayOfEachMonth from "./getLastDayOfEachMonth/GetLastDayOfEachMonth";
+import combinePaydaysByMonthYear from "./combinePaydaysByMonthYear/CombinePaydaysByMonthYear";
 
 const backtesting_stock_purchase = async () => {
   try {
@@ -29,6 +32,8 @@ const backtesting_stock_purchase = async () => {
     let numContributions = 0;
     let operations = [];
     let listDivToReceive = [];
+    let listDivReceived = []
+    let purchaseCost = []
 
     const allStocks = await getAllStocks();
 
@@ -66,6 +71,7 @@ const backtesting_stock_purchase = async () => {
 
       // Total pago por dividendos no dia especifico
       const totalPaydayByDate = getPaydayStock(listDivToReceive, date);
+      listDivReceived.push({date: date, payday: totalPaydayByDate})
       balance += totalPaydayByDate;
 
       const daysOperations: any = getTheDaysOperations({
@@ -78,14 +84,29 @@ const backtesting_stock_purchase = async () => {
 
       const result = {
         "No dia": date,
+        "Custo de aquisição": undefined,
         "Saldo finalizou em": +balance.toFixed(2),
         "Teve um aporte de": +newContribution.toFixed(2),
         "Proventos recebido": +totalPaydayByDate.toFixed(2),
       };
-      console.log(JSON.stringify(result, null, 2));
+      // console.log(JSON.stringify(result, null, 2));
+
+      // Lista do custo de aquisição de cada mês
+      const purchaseCostByDate = calculatePurchaseCost(stockPosition)
+      purchaseCost.push({date: date, purchaseCost: +purchaseCostByDate.toFixed(2)})
     }
+    // Último dia de cada mes
+    const lastDayPurchaseCost = getLastDayOfEachMonth(purchaseCost)
+    const paydaysByMonthYear = combinePaydaysByMonthYear(listDivReceived)
+    console.log('lastDayPurchaseCost:', lastDayPurchaseCost)
+    console.log('paydaysByMonthYear:', paydaysByMonthYear)
+    // console.log('listDivReceived:', listDivReceived)
+
+
     deleteAllOutputFiles();
+    // deleteOutputFile();
     addDataToCSV(operations);
+    // addDataToExcel(operations);
   } catch (error) {
     console.error("Erro ao executar o backtesting", error);
   } finally {

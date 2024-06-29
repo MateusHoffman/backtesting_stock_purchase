@@ -26,10 +26,10 @@ function formatProfitsHistory(profitsHistory: any) {
     (data: any) => data?.gridLineModel?.key === "LucroLiquido"
   );
   const profitsValues = dataProfits?.gridLineModel?.values;
-  if (profitsValues.length < 10) {
+  if (profitsValues?.length < 10) {
     return null;
   }
-  const formattedProfit = profitsValues.slice(1).map((value: any, index: any) => {
+  const formattedProfit = profitsValues?.slice(1).map((value: any, index: any) => {
     return {
       year: moment()
         .subtract(index + 1, "year")

@@ -72,6 +72,6 @@ export default async function getAllStocks(): Promise<IStockData[] | undefined> 
       return allValidStocks;
     }
   } catch (error) {
-    console.error("Erro ao pegar todos os dados das ações");
+    throw error
   }
 }

@@ -96,17 +96,19 @@ const backtesting_stock_purchase = async () => {
       purchaseCost.push({date: date, purchaseCost: +purchaseCostByDate.toFixed(2)})
     }
     // Último dia de cada mes
-    const lastDayPurchaseCost = getLastDayOfEachMonth(purchaseCost)
-    const paydaysByMonthYear = combinePaydaysByMonthYear(listDivReceived)
-    console.log('lastDayPurchaseCost:', lastDayPurchaseCost)
-    console.log('paydaysByMonthYear:', paydaysByMonthYear)
+    // const lastDayPurchaseCost = getLastDayOfEachMonth(purchaseCost)
+    // const paydaysByMonthYear = combinePaydaysByMonthYear(listDivReceived)
+    // console.log('lastDayPurchaseCost:', lastDayPurchaseCost)
+    // console.log('paydaysByMonthYear:', paydaysByMonthYear)
     // console.log('listDivReceived:', listDivReceived)
 
+    // console.log({
+    //   "Custo de aquisição": lastDayPurchaseCost[lastDayPurchaseCost.length - 1],
+    //   "Proventos acumulados": paydaysByMonthYear.reduce((acc, { payday }) => acc + payday, 0),
+    // })
 
     deleteAllOutputFiles();
-    // deleteOutputFile();
     addDataToCSV(operations);
-    // addDataToExcel(operations);
   } catch (error) {
     console.error("Erro ao executar o backtesting", error);
   } finally {

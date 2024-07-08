@@ -186,6 +186,7 @@ export default async function getBestStocksByDay(
     for (const date of dateRangeArray) {
       const bestStocksOfTheDayData = getBestStocksOfTheDay(allStocks, date);
       bestStocksOfTheDay.push({ date, data: bestStocksOfTheDayData });
+      console.log(date, bestStocksOfTheDayData)
     }
     const filterDataWithContent = bestStocksOfTheDay.filter((obj: any) => obj.data.length);
 
